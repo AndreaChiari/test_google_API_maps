@@ -57,7 +57,6 @@ function fillInAddress() {
   // Get the place details from the autocomplete object.
   const place = autocomplete.getPlace();
   let address1 = "";
-  let streetnumber = "";
   let postcode = "";
 
 console.log(place);
@@ -70,10 +69,13 @@ console.log(place);
     const componentType = component.types[0];
 
     switch (componentType) {
-      case "street_number": {
-        streetnumber = component.long_name;
+      case "route": 
+      document.querySelector("#route").value = component.long_name;
+      break;
+
+      case "street_number": 
+        document.querySelector("#street_number").value = component.long_name;
         break;
-      }
 
       case "route": {
         address1 += component.short_name;
@@ -81,8 +83,9 @@ console.log(place);
       }
 
       case "postal_code": {
-        postcode = `${component.long_name}${postcode}`;
+        postcode = `${component.long_name}${postcode}`
         break;
+        
       }
 
       case "postal_code_suffix": {
@@ -99,14 +102,7 @@ console.log(place);
      
     }
   }
-console.log(streetnumber);
-const addressComponents = address1.split(/(\d+)/).filter(Boolean);
-  if (addressComponents.length > 0) {
-    address1 = addressComponents[0].trim();
-    if (addressComponents.length > 1) {
-      streetnumber = addressComponents[1].trim() + streetnumber;
-    }
-  }
+
 
   address1Field.value = address1;
   postalField.value = postcode;
